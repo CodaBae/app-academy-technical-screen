@@ -1,0 +1,12 @@
+{
+  "name": "taskserver",
+  "version": "1.0.0",
+  "description": "A Todo server with user registration, login, task creation, editing, and deletion functionality",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
