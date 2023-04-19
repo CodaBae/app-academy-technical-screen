@@ -25,7 +25,7 @@ A Todo application with user registration, login, task creation, editing, and de
 
 * Run npm run dev to start the development server.
 
-* Navigate to http://localhost:3000 in your web browser to access the app.
+* Navigate to http://localhost:8000 in your web browser to access the app.
 
 _Note: The above instructions assume that you have already set up the required database_
 
@@ -38,5 +38,5 @@ _Note: The above instructions assume that you have already set up the required d
 
 ## Depolyment
 
-* React App - https://www.taskApp.com
-* NodeJS - https://www.TaskServer.com 
+* React App - https://www.taskapp.com
+* NodeJS - https://www.Taskserver.com 
