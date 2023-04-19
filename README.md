@@ -38,5 +38,5 @@ _Note: The above instructions assume that you have already set up the required d
 
 ## Depolyment
 
-* React App [TaskApp] (https://www.taskApp.com “TaskApp”)
-* NodeJS [TaskServer] (https://www.TaskServer.com “TaskServer”)
+* React App - https://www.taskApp.com
+* NodeJS - https://www.TaskServer.com 
