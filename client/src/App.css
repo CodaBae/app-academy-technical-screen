@@ -4,3 +4,16 @@
   align-items: center;
   height: 80vh;
 }
+.display-space{
+  display: flex;
+    justify-content: space-between;
+
+}
+
+input.check {
+  margin-top: -22%;
+  margin-left: -20%;
+}
+.red-text{
+  color: red;
+}

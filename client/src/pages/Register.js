@@ -26,8 +26,7 @@ function Register() {
         axios.post('/auth/signup', payload)
         .then((r) => {
             setIsSubmitting(false)
-            localStorage.setItem('token', r.data.token)
-            navigate("/dashboard");
+            navigate("/");
         })
         .catch((e) => {
             setIsSubmitting(false)
