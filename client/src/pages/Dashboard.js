@@ -5,41 +5,96 @@ import Layout from "../components/Layout"
   
 function Dashboard() {
     const navigate = useNavigate();
-    const [user, setUser] = useState({})
- 
+    const [task, setTask] = useState([])
+    const [newTask, setNewTask] = useState([])
+    const [validationErrors, setValidationErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     useEffect(()=>{
         if(localStorage.getItem('token') == "" || localStorage.getItem('token') == null){
             navigate("/");
         }else {
-            getUser()
+            getTask()
         }
     },[])
  
-    const getUser = () => {
-        axios.get('/auth/user', { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+    const getTask = () => {
+        axios.get('/tasks/', { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
         .then((r) => {
-           setUser(r.data)
+           setTask(r.data)
         })
         .catch((e) => {
             console.log(e)
         });
     }
+
+    const taskAction = (e) => {
+        setValidationErrors({})
+        e.preventDefault();
+        setIsSubmitting(true)
+        let payload = {
+            task:newTask,
+        }
+       
+        axios.post('/tasks/', { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}}, payload)
+        .then((r) => {
+            setIsSubmitting(false)
+            console.log(r,'kkk')
+        })
+        .catch((e) => {
+            setIsSubmitting(false)
+            if (e.response.data.errors != undefined) {
+                setValidationErrors(e.response.data.errors);
+            }
+            if (e.response.data.error != undefined) {
+                setValidationErrors(e.response.data.error);
+            }
+        });
+    }
+
  
    
     return (
         <Layout>
-           <div className="row justify-content-md-center">
-                <div className="col-12">
-                    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                        <div className="container-fluid">
-                            <a className="navbar-brand" href="#">Dashboard</a>
+        <div className="row justify-content-md-center mt-5 center">
+        <div className="col-xs-6 col-md-8">
+                <div className="card">
+                    <div className="card-body">
+                        <h5 className="card-title mb-4">Task App</h5>
+                        <form onSubmit={(e)=>{taskAction(e)}}>
+                        
+                            <div className="mb-3">
+                                <label 
+                                    htmlFor="task"
+                                    className="form-label">Enter Task
+                                </label>
+                                <input 
+                                    type="text"
+                                    className="form-control"
+                                    id="task"
+                                    name="task"
+                                    value={newTask}
+                                    onChange={(e)=>{setNewTask(e.target.value)}}
+                                />
+                               
+                                 
+                            </div>
+                           
                             
-                        </div>
-                    </nav>
-                    <h2 className="text-center mt-5">Welcome, {user.name}!</h2  >
+                            <div className="d-grid gap-2">
+                                <button 
+                                    disabled={isSubmitting}
+                                    type="submit"
+                                    className="btn btn-primary btn-block">+
+                                </button>
+                               
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </Layout>
+        </div>
+    </Layout>
     );
 }
    
