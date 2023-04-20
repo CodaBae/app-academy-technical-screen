@@ -1,25 +1,24 @@
 const { DataTypes, Sequelize } = require('sequelize');
-
 const sequelize = require('../sequelize');
 
-
-const User = sequelize.define('Users', {
+const Task = sequelize.define('Task', {
   id: {
     type: DataTypes.UUID,
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  email: {
+  title: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
   },
-  password: {
-    type: DataTypes.STRING,
+  completed: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
     allowNull: false
   }
-}, {
-  timestamps: true
 });
 
 // Synchronize the model with the database
@@ -29,4 +28,4 @@ sequelize.sync().then(() => {
   console.error('Error syncing database:', error);
 });
 
-module.exports = User;
+module.exports = Task;
