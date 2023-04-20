@@ -110,7 +110,7 @@ function Dashboard() {
                             </form>
                         </div>
                         <div className="card-body display_space">
-                            {task.length> 0 ? <h5>To modify the task title, simply click on the name of the task.</h5> : ''}
+                            {task.length> 0 ? <><h5>To modify the task title, simply click on the name of the task.</h5><br/></> : ''}
                             {task.length > 0 ? task.map((item, index) => (
                                 <div key={index} className=" display-space">
                                     <div>

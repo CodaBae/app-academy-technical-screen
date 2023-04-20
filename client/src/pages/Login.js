@@ -29,10 +29,12 @@ function Login() {
         axios.post('/auth/login', payload)
         .then((user) => {
             setIsSubmitting(false)
-            localStorage.setItem('token', user.data.token)
+            if (user.data){
+                localStorage.setItem('token', user.data.token)
             localStorage.setItem('userId', user.data.id)
 
             navigate("/dashboard");
+            }
         })
         .catch((e) => {
             setIsSubmitting(false)
