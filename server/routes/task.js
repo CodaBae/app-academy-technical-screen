@@ -8,10 +8,11 @@ router.use(authMiddleware);
 
 // Get task route
 router.get('/', authMiddleware, async (req, res) => {
+
   try {
     const tasks = await Task.findAll({
       where: {
-        userId: req.userId,
+        userId: parseInt(req.user.id),
       },
     });
 
@@ -28,7 +29,7 @@ router.post('/', authMiddleware, async (req, res) => {
 
     const task = await Task.create({
       title,
-      userId: req.userId,
+      userId: parseInt(req.user.id),
     });
 
     res.status(201).json(task);
@@ -46,7 +47,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
     const task = await Task.findOne({
       where: {
         id,
-        userId: req.userId,
+        userId: parseInt(req.user.id),
       },
     });
 
@@ -73,7 +74,7 @@ router.delete('/:id', authMiddleware,  async (req, res) => {
     const task = await Task.findOne({
       where: {
         id,
-        userId: req.userId,
+        userId: parseInt(req.user.id),
       },
     });
 

@@ -10,6 +10,7 @@ function Login() {
     const [validationErrors, setValidationErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
  
+
     useEffect(()=>{
         if(localStorage.getItem('token') != "" && localStorage.getItem('token') != null){
             navigate("/dashboard");
@@ -29,6 +30,8 @@ function Login() {
         .then((r) => {
             setIsSubmitting(false)
             localStorage.setItem('token', r.data.token)
+            localStorage.setItem('userId', r.data.id)
+
             navigate("/dashboard");
         })
         .catch((e) => {

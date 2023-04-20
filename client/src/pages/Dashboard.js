@@ -10,6 +10,10 @@ function Dashboard() {
     const [validationErrors, setValidationErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+
+    const userId = localStorage.getItem('userId')
+
+    
     useEffect(()=>{
         if(localStorage.getItem('token') == "" || localStorage.getItem('token') == null){
             navigate("/");
@@ -36,7 +40,7 @@ function Dashboard() {
             task:newTask,
         }
        
-        axios.post('/tasks/', { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}}, payload)
+        axios.post(`/tasks/${userId}`, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}}, payload)
         .then((r) => {
             setIsSubmitting(false)
             console.log(r,'kkk')

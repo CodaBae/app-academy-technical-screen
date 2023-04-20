@@ -32,7 +32,7 @@ router.post('/signup', async (req, res) => {
 // Login route
 router.post('/login', async (req, res) => {
   try {
-    const {id, email, password } = req.body;
+    const {email, password } = req.body;
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
@@ -46,7 +46,7 @@ router.post('/login', async (req, res) => {
 
     const token = jwt.sign({ id: user.id }, JWT_SECRET);
 
-    res.json({ token });
+    res.json({ token , id : user.id });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
