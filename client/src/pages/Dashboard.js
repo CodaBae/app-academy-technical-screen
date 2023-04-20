@@ -113,7 +113,7 @@ function Dashboard() {
                             {task.length > 0 ? task.map((item, index) => (
                                 <div key={index} className=" display-space">
                                     <div>
-                                       <div contentEditable="true" type='text' onMouseLeave={(e) => {
+                                       <div contentEditable="true" type='text' onInput={(e) => {
                                             updateTask({ title: e.currentTarget.textContent }, item.id)
                                         }}>
                                             {item.title} 
