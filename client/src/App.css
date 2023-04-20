@@ -16,4 +16,5 @@ input.check {
 }
 .red-text{
   color: red;
+  cursor: pointer;
 }

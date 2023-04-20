@@ -13,6 +13,9 @@ function Dashboard() {
 
     const token = localStorage.getItem('token')
 
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
 
     useEffect(() => {
         if (localStorage.getItem('token') == "" || localStorage.getItem('token') == null) {
@@ -23,7 +26,7 @@ function Dashboard() {
     })
 
     const getTask = () => {
-        axios.get('/tasks', { headers: { authorization: 'Bearer ' + localStorage.getItem('token') } })
+        axios.get('/tasks', config)
             .then((r) => {
                 setTask(r.data)
             })
@@ -32,17 +35,13 @@ function Dashboard() {
             });
     }
 
-    const taskAction = (e) => {
+    const taskPostAction = (e) => {
         setValidationErrors({})
         e.preventDefault();
         setIsSubmitting(true)
         let payload = {
             title: newTask,
         }
-
-        const config = {
-            headers: { Authorization: `Bearer ${token}` }
-        };
 
         axios.post(`/tasks`, payload, config)
             .then((r) => {
@@ -62,15 +61,24 @@ function Dashboard() {
             });
     }
 
+    const updateTask = async (task,id) => {
+        let data = await axios.put(`tasks/${id}`, task, config)
+        console.log(data)
+    }
+    const deleteTask = async (id) => {
+        let data = await axios.delete(`tasks/${id}`, config)
+        console.log(data)
+    }
+
 
     return (
         <Layout>
             <div className="row justify-content-md-center mt-5 center">
-                <div className="col-xs-6 col-md-8">
+                <div className="col-xs-6 col-md-6">
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title mb-4">Task App</h5>
-                            <form onSubmit={(e) => { taskAction(e) }}>
+                            <form onSubmit={(e) => { taskPostAction(e) }}>
 
                                 <div className="mb-3">
                                     <label
@@ -107,8 +115,12 @@ function Dashboard() {
                                    <p>{item.title}</p>
                                </div>
                                <div className='display-space'>
-                                   <input type='checkbox'  className='check'/>
-                                   <p className='red-text'>Delete</p>
+                                   <input type='checkbox' checked={item.completed}  className='check' onChange={() => {
+                    updateTask({ completed: !item.completed },item.id)
+                                   }}/>
+                                   <p className='red-text' onClick={()=>{
+                                    deleteTask(item.id)
+                                   }}>Delete</p>
                                </div>
                            </div>
                             )) : null}
