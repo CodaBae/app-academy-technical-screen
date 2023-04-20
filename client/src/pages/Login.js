@@ -27,10 +27,10 @@ function Login() {
             password:password,
         }
         axios.post('/auth/login', payload)
-        .then((r) => {
+        .then((user) => {
             setIsSubmitting(false)
-            localStorage.setItem('token', r.data.token)
-            localStorage.setItem('userId', r.data.id)
+            localStorage.setItem('token', user.data.token)
+            localStorage.setItem('userId', user.data.id)
 
             navigate("/dashboard");
         })

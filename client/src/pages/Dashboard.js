@@ -7,10 +7,10 @@ function Dashboard() {
     const navigate = useNavigate();
     const [task, setTask] = useState([])
     const [newTask, setNewTask] = useState([])
+    const [update, setUpdate] = useState(true)
     const [validationErrors, setValidationErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-
+   
     const token = localStorage.getItem('token')
 
     const config = {
@@ -23,12 +23,12 @@ function Dashboard() {
         } else {
             getTask()
         }
-    })
+    },[update])
 
     const getTask = () => {
         axios.get('/tasks', config)
-            .then((r) => {
-                setTask(r.data)
+            .then((task) => {
+                setTask(task.data)
             })
             .catch((e) => {
                 console.log(e)
@@ -36,7 +36,6 @@ function Dashboard() {
     }
 
     const taskPostAction = (e) => {
-        setValidationErrors({})
         e.preventDefault();
         setIsSubmitting(true)
         let payload = {
@@ -48,6 +47,7 @@ function Dashboard() {
                 setIsSubmitting(false)
                 if (r.data.UserId) {
                     setNewTask('')
+                    setUpdate(!update)
                 }
             })
             .catch((e) => {
@@ -61,13 +61,14 @@ function Dashboard() {
             });
     }
 
-    const updateTask = async (task,id) => {
+    const updateTask = async (task, id) => {
         let data = await axios.put(`tasks/${id}`, task, config)
-        console.log(data)
+        setUpdate(!update)
     }
+
     const deleteTask = async (id) => {
         let data = await axios.delete(`tasks/${id}`, config)
-        console.log(data)
+        setUpdate(!update)
     }
 
 
@@ -109,22 +110,28 @@ function Dashboard() {
                             </form>
                         </div>
                         <div className="card-body display_space">
-                            {task.length > 0 ? task.map((item,index)=>(
-                               <div key={index} className=" display-space">
-                               <div>
-                                   <p>{item.title}</p>
-                               </div>
-                               <div className='display-space'>
-                                   <input type='checkbox' checked={item.completed}  className='check' onChange={() => {
-                    updateTask({ completed: !item.completed },item.id)
-                                   }}/>
-                                   <p className='red-text' onClick={()=>{
-                                    deleteTask(item.id)
-                                   }}>Delete</p>
-                               </div>
-                           </div>
+                            {task.length > 0 ? task.map((item, index) => (
+                                <div key={index} className=" display-space">
+                                    <div>
+                                       <div contentEditable="true" type='text' onMouseLeave={(e) => {
+                                            updateTask({ title: e.currentTarget.textContent }, item.id)
+                                        }}>
+                                            {item.title} 
+                                    </div>
+                                    </div>
+                                    <div className='display-space'>
+                                        <input type='checkbox' checked={item.completed} className='check' onChange={() => {
+                                            updateTask({ completed: !item.completed }, item.id)
+                                        }} />
+                                        
+
+                                        <p className='red-text' onClick={() => {
+                                            deleteTask(item.id)
+                                        }}>Delete</p>
+                                    </div>
+                                </div>
                             )) : null}
-                            
+
                         </div>
                     </div>
 
