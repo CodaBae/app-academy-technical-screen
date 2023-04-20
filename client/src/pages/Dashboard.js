@@ -11,7 +11,7 @@ function Dashboard() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
 
-    const userId = localStorage.getItem('userId')
+    const token = localStorage.getItem('token')
 
     
     useEffect(()=>{
@@ -23,7 +23,7 @@ function Dashboard() {
     },[])
  
     const getTask = () => {
-        axios.get('/tasks/', { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+        axios.get('/tasks', { headers:{authorization: 'Bearer ' + localStorage.getItem('token')}})
         .then((r) => {
            setTask(r.data)
         })
@@ -37,10 +37,14 @@ function Dashboard() {
         e.preventDefault();
         setIsSubmitting(true)
         let payload = {
-            task:newTask,
+            title:newTask,
         }
        
-        axios.post(`/tasks/${userId}`, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}}, payload)
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+
+        axios.post(`/tasks`, payload, config)
         .then((r) => {
             setIsSubmitting(false)
             console.log(r,'kkk')

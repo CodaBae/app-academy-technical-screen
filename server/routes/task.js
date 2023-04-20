@@ -12,7 +12,7 @@ router.get('/', authMiddleware, async (req, res) => {
   try {
     const tasks = await Task.findAll({
       where: {
-        userId: parseInt(req.user.id),
+        UserId: req.user.id,
       },
     });
 
@@ -24,12 +24,15 @@ router.get('/', authMiddleware, async (req, res) => {
 
 // Post task route
 router.post('/', authMiddleware, async (req, res) => {
+
   try {
     const { title } = req.body;
 
+    console.log(req.user.id,'jjj')
+
     const task = await Task.create({
       title,
-      userId: parseInt(req.user.id),
+      UserId: req.user.id,
     });
 
     res.status(201).json(task);
@@ -47,7 +50,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
     const task = await Task.findOne({
       where: {
         id,
-        userId: parseInt(req.user.id),
+        UserId: req.user.id,
       },
     });
 
@@ -74,7 +77,7 @@ router.delete('/:id', authMiddleware,  async (req, res) => {
     const task = await Task.findOne({
       where: {
         id,
-        userId: parseInt(req.user.id),
+        UserId: req.user.id,
       },
     });
 
