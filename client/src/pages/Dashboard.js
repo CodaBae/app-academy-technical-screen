@@ -78,7 +78,7 @@ function Dashboard() {
                 <div className="col-xs-6 col-md-6">
                     <div className="card">
                         <div className="card-body">
-                            <h5 className="card-title mb-4">Task App</h5>
+                            <h3 className="card-title mb-4">Task App</h3>
                             <form onSubmit={(e) => { taskPostAction(e) }}>
 
                                 <div className="mb-3">
@@ -110,6 +110,7 @@ function Dashboard() {
                             </form>
                         </div>
                         <div className="card-body display_space">
+                            {task.length> 0 ? <h5>To modify the task title, simply click on the name of the task.</h5> : ''}
                             {task.length > 0 ? task.map((item, index) => (
                                 <div key={index} className=" display-space">
                                     <div>
